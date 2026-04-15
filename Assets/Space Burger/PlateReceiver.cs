@@ -6,11 +6,11 @@ public class PlateReceiver : MonoBehaviour
     [SerializeField] private float detectionRadius = 0.15f;
     [SerializeField] private Transform spawnPoint;
 
-    private bool hasBurger;
+    public bool HasBurger { get; private set; }
 
     private void Update()
     {
-        if (hasBurger || spawnPoint == null)
+        if (HasBurger || spawnPoint == null)
             return;
 
         var hits = Physics.OverlapSphere(transform.position, detectionRadius);
@@ -45,7 +45,7 @@ public class PlateReceiver : MonoBehaviour
         burger.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
         burger.transform.SetParent(spawnPoint);
 
-        hasBurger = true;
+        HasBurger = true;
     }
 
     private static GameObject FindBurgerRoot(Collider other)
