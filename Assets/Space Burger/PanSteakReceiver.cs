@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(Collider))]
 public class PanSteakReceiver : MonoBehaviour
@@ -32,45 +31,16 @@ public class PanSteakReceiver : MonoBehaviour
     {
         if (other.attachedRigidbody != null)
         {
-            if (other.attachedRigidbody.TryGetComponent(out CookedSteak cookedOnRb))
-            {
-                return null;
-            }
-
             if (other.attachedRigidbody.TryGetComponent(out RawSteak rawOnRb))
-            {
                 return rawOnRb.gameObject;
-            }
 
-            if (other.attachedRigidbody.TryGetComponent(out XRGrabInteractable grabbableOnRb))
-            {
-                return grabbableOnRb.gameObject;
-            }
-        }
-
-        if (other.TryGetComponent(out CookedSteak cookedOnCollider))
-        {
             return null;
         }
 
         if (other.TryGetComponent(out RawSteak rawOnCollider))
-        {
             return rawOnCollider.gameObject;
-        }
-
-        var cookedInParent = other.GetComponentInParent<CookedSteak>();
-        if (cookedInParent != null)
-        {
-            return null;
-        }
 
         var rawInParent = other.GetComponentInParent<RawSteak>();
-        if (rawInParent != null)
-        {
-            return rawInParent.gameObject;
-        }
-
-        var grabbableInParent = other.GetComponentInParent<XRGrabInteractable>();
-        return grabbableInParent != null ? grabbableInParent.gameObject : null;
+        return rawInParent != null ? rawInParent.gameObject : null;
     }
 }
