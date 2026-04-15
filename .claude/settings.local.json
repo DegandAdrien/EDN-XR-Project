@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.mat$|\\\\.fbx$|\\\\.glb$\")",
+      "Bash(xargs wc:*)",
+      "Bash(find \"/c/Users/2024697310.LACATHOLILLE/Downloads/EDN-XR-Project/Assets/Space Burger\" -type f -name \"*.cs\" -exec wc -l {} \\\\;)"
+    ]
+  }
+}
