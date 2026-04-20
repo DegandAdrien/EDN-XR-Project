@@ -49,9 +49,9 @@ public class SteakCooker : MonoBehaviour
             grabInteractable.enabled = false;
         }
 
-        // Nettoyer les particules d'un cycle précédent
-        StopParticles(cookedParticles);
+        // Nettoyer les particules d'un cycle précédent et démarrer la vapeur dès la pose
         StopParticles(burnedParticles);
+        PlayParticles(cookedParticles);
 
         if (cookingRoutine == null)
         {
@@ -76,9 +76,6 @@ public class SteakCooker : MonoBehaviour
         var cookedSteak = Instantiate(cookedSteakPrefab, spawnPoint.position, spawnPoint.rotation);
         PrepareSteakForPickup(cookedSteak);
         currentSteak = cookedSteak;
-
-        // Lancer la vapeur de cuisson
-        PlayParticles(cookedParticles);
 
         if (cookedSteak.TryGetComponent(out XRGrabInteractable grab))
             grab.selectEntered.AddListener(_ => OnSteakPickedUp());
