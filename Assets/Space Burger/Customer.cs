@@ -5,7 +5,8 @@ using UnityEngine;
 public class Customer : MonoBehaviour
 {
     [Header("Order")]
-    [SerializeField] private int burgerCount = 1;
+    [SerializeField] private int maxBurgers = 2;
+    [SerializeField] private int maxFries = 2;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2f;
@@ -16,6 +17,8 @@ public class Customer : MonoBehaviour
 
     public event Action OnLeave;
 
+    private int burgerCount;
+    private int friesCount;
     private Transform destination;
     private bool isLeaving;
     private bool reachedDestination;
@@ -27,6 +30,13 @@ public class Customer : MonoBehaviour
 
     private void Start()
     {
+        // Générer une commande aléatoire avec au moins un item
+        burgerCount = UnityEngine.Random.Range(0, maxBurgers + 1);
+        friesCount  = UnityEngine.Random.Range(0, maxFries + 1);
+
+        if (burgerCount == 0 && friesCount == 0)
+            burgerCount = 1;
+
         UpdateBubble();
     }
 
@@ -54,17 +64,36 @@ public class Customer : MonoBehaviour
         if (isLeaving || !reachedDestination)
             return;
 
-        var plate = other.attachedRigidbody != null
-            ? other.attachedRigidbody.GetComponent<PlateReceiver>()
-            : other.GetComponentInParent<PlateReceiver>();
+        // Livraison burger via assiette
+        if (burgerCount > 0)
+        {
+            var plate = other.attachedRigidbody != null
+                ? other.attachedRigidbody.GetComponent<PlateReceiver>()
+                : other.GetComponentInParent<PlateReceiver>();
 
-        if (plate == null || !plate.HasBurger)
-            return;
+            if (plate != null && plate.HasBurger)
+            {
+                AcceptBurger(plate);
+                return;
+            }
+        }
 
-        AcceptDelivery(plate);
+        // Livraison frites directement
+        if (friesCount > 0)
+        {
+            var fries = other.attachedRigidbody != null
+                ? other.attachedRigidbody.GetComponent<FrenchFries>()
+                : other.GetComponentInParent<FrenchFries>();
+
+            if (fries != null)
+            {
+                AcceptFries(fries);
+                return;
+            }
+        }
     }
 
-    private void AcceptDelivery(PlateReceiver plate)
+    private void AcceptBurger(PlateReceiver plate)
     {
         var burger = plate.GetComponentInChildren<Burger>();
         if (burger != null)
@@ -74,18 +103,41 @@ public class Customer : MonoBehaviour
 
         burgerCount--;
         UpdateBubble();
+        CheckIfSatisfied();
+    }
 
-        if (burgerCount <= 0)
+    private void AcceptFries(FrenchFries fries)
+    {
+        Destroy(fries.gameObject);
+
+        friesCount--;
+        UpdateBubble();
+        CheckIfSatisfied();
+    }
+
+    private void CheckIfSatisfied()
+    {
+        if (burgerCount <= 0 && friesCount <= 0)
             Leave();
     }
 
     private void UpdateBubble()
     {
         if (orderText != null)
-            orderText.text = $"Burger x{burgerCount}";
+        {
+            var text = "";
+            if (burgerCount > 0)
+                text += $"Burger x{burgerCount}";
+            if (friesCount > 0)
+            {
+                if (text.Length > 0) text += "\n";
+                text += $"Frites x{friesCount}";
+            }
+            orderText.text = text;
+        }
 
         if (orderBubble != null)
-            orderBubble.SetActive(burgerCount > 0);
+            orderBubble.SetActive(burgerCount > 0 || friesCount > 0);
     }
 
     private void Leave()

@@ -14,6 +14,10 @@ public class SteakCooker : MonoBehaviour
     [SerializeField] private float cookingTime = 5f;
     [SerializeField] private float burnTime = 4f;
 
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem cookedParticles;  // Vapeur quand le steak est cuit
+    [SerializeField] private ParticleSystem burnedParticles;  // Flammes quand le steak brûle
+
     private Coroutine cookingRoutine;
 
     public bool HasCurrentSteak => currentSteak != null;
@@ -45,6 +49,10 @@ public class SteakCooker : MonoBehaviour
             grabInteractable.enabled = false;
         }
 
+        // Nettoyer les particules d'un cycle précédent
+        StopParticles(cookedParticles);
+        StopParticles(burnedParticles);
+
         if (cookingRoutine == null)
         {
             cookingRoutine = StartCoroutine(CookSteakRoutine());
@@ -69,6 +77,9 @@ public class SteakCooker : MonoBehaviour
         PrepareSteakForPickup(cookedSteak);
         currentSteak = cookedSteak;
 
+        // Lancer la vapeur de cuisson
+        PlayParticles(cookedParticles);
+
         if (cookedSteak.TryGetComponent(out XRGrabInteractable grab))
             grab.selectEntered.AddListener(_ => OnSteakPickedUp());
 
@@ -77,6 +88,10 @@ public class SteakCooker : MonoBehaviour
 
         if (currentSteak != null)
         {
+            // Arrêter la vapeur, lancer les flammes
+            StopParticles(cookedParticles);
+            PlayParticles(burnedParticles);
+
             Destroy(currentSteak);
             currentSteak = null;
 
@@ -93,6 +108,21 @@ public class SteakCooker : MonoBehaviour
     private void OnSteakPickedUp()
     {
         currentSteak = null;
+        StopParticles(cookedParticles);
+        StopParticles(burnedParticles);
+    }
+
+    private static void PlayParticles(ParticleSystem ps)
+    {
+        if (ps == null) return;
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        ps.Play();
+    }
+
+    private static void StopParticles(ParticleSystem ps)
+    {
+        if (ps == null) return;
+        ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
     }
 
     private static void PrepareSteakForPickup(GameObject steak)

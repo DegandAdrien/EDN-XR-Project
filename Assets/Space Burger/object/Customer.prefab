@@ -102,7 +102,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burgerCount: 1
+  maxBurgers: 3
+  maxFries: 2
+  moveSpeed: 2
   orderText: {fileID: 2610543148457447591}
   orderBubble: {fileID: 5344666859652850324}
 --- !u!1 &8630272023756280640

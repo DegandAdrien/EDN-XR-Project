@@ -16,13 +16,21 @@ public class CookingPan : MonoBehaviour
 
     private GameObject currentSteak;
     private bool isCooking = false;
+    private Coroutine cookingCoroutine;
 
     public void PlaceRawSteak()
     {
         if (currentSteak != null) return;
 
+        // Stopper toute coroutine en cours avant d'en lancer une nouvelle
+        if (cookingCoroutine != null)
+        {
+            StopCoroutine(cookingCoroutine);
+            cookingCoroutine = null;
+        }
+
         currentSteak = Instantiate(rawSteakPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
-        StartCoroutine(CookSteak());
+        cookingCoroutine = StartCoroutine(CookSteak());
     }
 
     IEnumerator CookSteak()
@@ -39,5 +47,6 @@ public class CookingPan : MonoBehaviour
         }
 
         isCooking = false;
+        cookingCoroutine = null;
     }
 }
