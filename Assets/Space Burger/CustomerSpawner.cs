@@ -29,6 +29,9 @@ public class CustomerSpawner : MonoBehaviour
 
             activeCustomers.RemoveAll(c => c == null);
 
+            if (GameManager.Instance != null && GameManager.Instance.IsGameOver)
+                yield break;
+
             int freeIndex = GetFreeDestinationIndex();
             if (freeIndex != -1)
                 SpawnCustomer(freeIndex);

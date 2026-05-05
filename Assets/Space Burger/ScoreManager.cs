@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    private int score;
+    public int Score { get; private set; }
 
     private void Awake()
     {
@@ -26,13 +26,13 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int burgers, int fries)
     {
-        score += burgers * pointsPerBurger + fries * pointsPerFries;
+        Score += burgers * pointsPerBurger + fries * pointsPerFries;
         UpdateUI();
     }
 
     private void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = $"Score : {score}";
+            scoreText.text = $"Score : {Score}";
     }
 }
