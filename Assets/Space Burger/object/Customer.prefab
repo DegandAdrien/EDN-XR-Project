@@ -320,7 +320,7 @@ MonoBehaviour:
   maxBurgers: 0
   maxFries: 1
   moveSpeed: 2
-  basePatienceTime: 60
+  basePatienceTime: 10
   timePerBurger: 15
   timePerFries: 10
   patienceBarFill: {fileID: 7744377217863086432}

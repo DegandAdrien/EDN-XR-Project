@@ -73,6 +73,8 @@ public class Customer : MonoBehaviour
         initialBurgerCount = burgerCount;
         initialFriesCount = friesCount;
         float patienceTime = basePatienceTime + burgerCount * timePerBurger + friesCount * timePerFries;
+        if (GameManager.Instance != null)
+            patienceTime *= GameManager.Instance.GetDifficultyMultiplier();
         remainingPatience = patienceTime;
         UpdateBubble();
         UpdatePatienceBar();
@@ -236,8 +238,16 @@ public class Customer : MonoBehaviour
         if (orderBubble != null)
             orderBubble.SetActive(false);
 
-        if (isSatisfied && ScoreManager.Instance != null)
-            ScoreManager.Instance.AddScore(initialBurgerCount, initialFriesCount);
+        if (isSatisfied)
+        {
+            if (ScoreManager.Instance != null)
+                ScoreManager.Instance.AddScore(initialBurgerCount, initialFriesCount);
+        }
+        else
+        {
+            if (GameManager.Instance != null)
+                GameManager.Instance.RegisterError();
+        }
 
         OnLeave?.Invoke();
         Destroy(gameObject, 1f);
