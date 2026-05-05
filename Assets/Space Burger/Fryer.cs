@@ -9,6 +9,7 @@ public class Fryer : MonoBehaviour
         public Transform basket;          // Le panier du modèle
         public Transform potatoPosition;  // Où la patate apparaît dans ce panier
         public Transform friesSpawnPoint; // Où les frites sortent pour ce panier
+        public ParticleSystem fryingParticles; // Particules de friture
 
         [HideInInspector] public bool isFrying = false;
         [HideInInspector] public GameObject currentItem;
@@ -78,7 +79,13 @@ public class Fryer : MonoBehaviour
         // Descendre le panier
         yield return StartCoroutine(MoveBasket(slot, slot.defaultLocalPos, slot.defaultLocalPos + Vector3.up * basketLoweredOffset));
 
+        if (slot.fryingParticles != null)
+            slot.fryingParticles.Play();
+
         yield return new WaitForSeconds(fryingTime);
+
+        if (slot.fryingParticles != null)
+            slot.fryingParticles.Stop();
 
         if (slot.currentItem != null)
             Destroy(slot.currentItem);
