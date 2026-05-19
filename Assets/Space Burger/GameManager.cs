@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,11 +21,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverErrorText;
-    [SerializeField] private Button restartButton;
+    [SerializeField] private TextMeshProUGUI restartCountdownText;
+    [SerializeField] private float restartDelay = 10f;
 
     private float remainingTime;
     private int errorCount;
     private bool isGameOver;
+    private float restartCountdown;
 
     public bool IsGameOver => isGameOver;
 
@@ -49,15 +50,23 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
 
-        if (restartButton != null)
-            restartButton.onClick.AddListener(RestartGame);
-
         UpdateInGameUI();
     }
 
     private void Update()
     {
-        if (isGameOver) return;
+        if (isGameOver)
+        {
+            restartCountdown -= Time.deltaTime;
+
+            if (restartCountdownText != null)
+                restartCountdownText.text = $"Nouvelle partie dans : {Mathf.CeilToInt(restartCountdown)}s";
+
+            if (restartCountdown <= 0f)
+                RestartGame();
+
+            return;
+        }
 
         remainingTime -= Time.deltaTime;
         UpdateInGameUI();
@@ -77,7 +86,6 @@ public class GameManager : MonoBehaviour
             TriggerGameOver();
     }
 
-    // Retourne un multiplicateur entre 1 (début) et minPatienceMultiplier (fin)
     public float GetDifficultyMultiplier()
     {
         float progress = 1f - Mathf.Clamp01(remainingTime / gameDuration);
@@ -87,7 +95,7 @@ public class GameManager : MonoBehaviour
     private void TriggerGameOver()
     {
         isGameOver = true;
-        Time.timeScale = 0f;
+        restartCountdown = restartDelay;
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
@@ -103,7 +111,6 @@ public class GameManager : MonoBehaviour
 
     private void RestartGame()
     {
-        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

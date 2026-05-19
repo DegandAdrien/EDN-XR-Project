@@ -32,15 +32,14 @@ public class PlateReceiver : MonoBehaviour
     {
         ReleaseFromHand(burger);
 
-        if (burger.TryGetComponent(out Rigidbody rb))
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
-
         if (burger.TryGetComponent(out XRGrabInteractable grab))
             grab.enabled = false;
+
+        if (burger.TryGetComponent(out Rigidbody rb))
+            Destroy(rb);
+
+        foreach (var col in burger.GetComponentsInChildren<Collider>())
+            col.enabled = false;
 
         burger.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
         burger.transform.SetParent(spawnPoint);
