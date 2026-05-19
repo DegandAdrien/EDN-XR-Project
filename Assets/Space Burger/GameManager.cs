@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Difficulté")]
     [SerializeField] private float minPatienceMultiplier = 0.4f;
+    [SerializeField] private float rushThreshold = 180f; // 3 dernières minutes
 
     [Header("UI - En jeu")]
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI errorText;
+    [SerializeField] private TextMeshProUGUI rushText;
 
     [Header("UI - Game Over")]
     [SerializeField] private GameObject gameOverPanel;
@@ -27,9 +29,20 @@ public class GameManager : MonoBehaviour
     private float remainingTime;
     private int errorCount;
     private bool isGameOver;
+    private bool isRush;
     private float restartCountdown;
 
     public bool IsGameOver => isGameOver;
+    public bool IsRush => isRush;
+
+    // Retourne la progression de 0 (début) à 1 (fin)
+    public float GetGameProgress() => 1f - Mathf.Clamp01(remainingTime / gameDuration);
+
+    // Retourne un multiplicateur de patience entre 1 (début) et minPatienceMultiplier (fin)
+    public float GetDifficultyMultiplier()
+    {
+        return Mathf.Lerp(1f, minPatienceMultiplier, GetGameProgress());
+    }
 
     private void Awake()
     {
@@ -39,6 +52,12 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        // Cacher dès Awake pour éviter le flash d'une frame
+        if (rushText != null)
+            rushText.gameObject.SetActive(false);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
     }
 
     private void Start()
@@ -46,9 +65,7 @@ public class GameManager : MonoBehaviour
         remainingTime = gameDuration;
         errorCount = 0;
         isGameOver = false;
-
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(false);
+        isRush = false;
 
         UpdateInGameUI();
     }
@@ -69,6 +86,7 @@ public class GameManager : MonoBehaviour
         }
 
         remainingTime -= Time.deltaTime;
+        UpdateRushState();
         UpdateInGameUI();
 
         if (remainingTime <= 0f)
@@ -86,16 +104,24 @@ public class GameManager : MonoBehaviour
             TriggerGameOver();
     }
 
-    public float GetDifficultyMultiplier()
+    private void UpdateRushState()
     {
-        float progress = 1f - Mathf.Clamp01(remainingTime / gameDuration);
-        return Mathf.Lerp(1f, minPatienceMultiplier, progress);
+        bool shouldRush = remainingTime <= rushThreshold;
+        if (shouldRush == isRush) return;
+
+        isRush = shouldRush;
+        if (rushText != null)
+            rushText.gameObject.SetActive(isRush);
     }
 
     private void TriggerGameOver()
     {
         isGameOver = true;
+        isRush = false;
         restartCountdown = restartDelay;
+
+        if (rushText != null)
+            rushText.gameObject.SetActive(false);
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);

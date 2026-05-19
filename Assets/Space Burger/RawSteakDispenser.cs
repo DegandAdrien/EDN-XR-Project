@@ -19,6 +19,10 @@ public class RawSteakDispenser : MonoBehaviour
     private void Awake()
     {
         interactable = GetComponent<XRBaseInteractable>();
+
+        // Empêche le grab : annule immédiatement toute sélection
+        interactable.selectEntered.AddListener(args =>
+            interactable.interactionManager.SelectExit(args.interactorObject, interactable));
     }
 
     private void Update()

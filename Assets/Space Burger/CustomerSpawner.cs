@@ -9,9 +9,9 @@ public class CustomerSpawner : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform[] destinationPoints;
 
-    [Header("Settings")]
-    [SerializeField] private float minSpawnDelay = 5f;
-    [SerializeField] private float maxSpawnDelay = 15f;
+    [Header("Délai de spawn (secondes)")]
+    [SerializeField] private float spawnDelayAtStart = 20f;  // début de partie (facile)
+    [SerializeField] private float spawnDelayAtEnd   = 4f;   // fin de partie (rush)
 
     private readonly bool[] occupiedPoints = new bool[5];
     private readonly List<Customer> activeCustomers = new();
@@ -25,7 +25,13 @@ public class CustomerSpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(minSpawnDelay, maxSpawnDelay));
+            float progress = GameManager.Instance != null ? GameManager.Instance.GetGameProgress() : 0f;
+            float delay = Mathf.Lerp(spawnDelayAtStart, spawnDelayAtEnd, progress);
+
+            // Petite variation aléatoire de ±20% pour que ce ne soit pas trop mécanique
+            delay *= Random.Range(0.8f, 1.2f);
+
+            yield return new WaitForSeconds(delay);
 
             activeCustomers.RemoveAll(c => c == null);
 

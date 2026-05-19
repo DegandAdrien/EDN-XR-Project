@@ -317,10 +317,10 @@ MonoBehaviour:
   - {fileID: 6795647166497350300, guid: 0a4bab6d1958d254f9d5492a8763fd89, type: 3}
   - {fileID: 346969953143459697, guid: bf1818a4e6ced294eaf4068b97a234a4, type: 3}
   modelSpawnPoint: {fileID: 2993011248717754097}
-  maxBurgers: 0
-  maxFries: 1
+  maxBurgers: 2
+  maxFries: 3
   moveSpeed: 2
-  basePatienceTime: 10
+  basePatienceTime: 25
   timePerBurger: 15
   timePerFries: 10
   patienceBarFill: {fileID: 7744377217863086432}

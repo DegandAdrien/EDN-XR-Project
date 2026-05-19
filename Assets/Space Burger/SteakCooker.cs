@@ -53,10 +53,9 @@ public class SteakCooker : MonoBehaviour
         StopParticles(burnedParticles);
         PlayParticles(cookedParticles);
 
-        if (cookingRoutine == null)
-        {
-            cookingRoutine = StartCoroutine(CookSteakRoutine());
-        }
+        if (cookingRoutine != null)
+            StopCoroutine(cookingRoutine);
+        cookingRoutine = StartCoroutine(CookSteakRoutine());
 
         return true;
     }
@@ -96,6 +95,9 @@ public class SteakCooker : MonoBehaviour
             {
                 var burnedSteak = Instantiate(burnedSteakPrefab, spawnPoint.position, spawnPoint.rotation);
                 PrepareSteakForPickup(burnedSteak);
+
+                if (burnedSteak.TryGetComponent(out XRGrabInteractable burnedGrab))
+                    burnedGrab.selectEntered.AddListener(_ => OnSteakPickedUp());
             }
         }
 
@@ -105,8 +107,8 @@ public class SteakCooker : MonoBehaviour
     private void OnSteakPickedUp()
     {
         currentSteak = null;
-        StopParticles(cookedParticles);
-        StopParticles(burnedParticles);
+        if (cookedParticles != null) cookedParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        if (burnedParticles != null) burnedParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     private static void PlayParticles(ParticleSystem ps)

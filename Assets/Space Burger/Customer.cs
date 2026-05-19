@@ -63,9 +63,13 @@ public class Customer : MonoBehaviour
     {
         SpawnRandomModel();
 
-        // Générer une commande aléatoire avec au moins un item
-        burgerCount = UnityEngine.Random.Range(0, maxBurgers + 1);
-        friesCount  = UnityEngine.Random.Range(0, maxFries + 1);
+        // Taille de commande progressive selon la difficulté
+        float progress = GameManager.Instance != null ? GameManager.Instance.GetGameProgress() : 0f;
+        int effectiveMaxBurgers = progress < 0.5f ? 1 : maxBurgers;
+        int effectiveMaxFries   = progress < 0.5f ? 1 : maxFries;
+
+        burgerCount = UnityEngine.Random.Range(0, effectiveMaxBurgers + 1);
+        friesCount  = UnityEngine.Random.Range(0, effectiveMaxFries + 1);
 
         if (burgerCount == 0 && friesCount == 0)
             burgerCount = 1;
