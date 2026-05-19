@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 79b241ddd2751e74b9c2f11eafb8d95b
+guid: 5e717eff423d9d64e90e4a9abfd813fd
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -40,7 +40,7 @@ ScriptedImporter:
   _generateMipMaps: 1
   _useSceneNameIdentifier: 1
   _textureCompression: -50
-  _gltfAsset: '<b>Generator: </b>Sketchfab-16.85.0
+  _gltfAsset: '<b>Generator: </b>Sketchfab-12.66.0
 
     <b>Version: </b>2.0
 
@@ -52,73 +52,6 @@ ScriptedImporter:
 '
   optimizeGameObjects: 0
   materials:
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
   - {instanceID: 0}
   - {instanceID: 0}
   - {instanceID: 0}
@@ -142,30 +75,12 @@ ScriptedImporter:
   - {instanceID: 0}
   - {instanceID: 0}
   - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
-  - {instanceID: 0}
   hasSceneData: 1
   hasAnimationData: 0
   hasMaterialData: 1
   hasTextureData: 1
   animations: []
-  _extensions:
-  - name: KHR_materials_transmission
-    supported: 1
-    used: 1
-    required: 0
-  - name: KHR_materials_specular
-    supported: 1
-    used: 1
-    required: 0
+  _extensions: []
   _textures:
   - texture: {instanceID: 0}
     shouldBeLinear: 0
@@ -180,6 +95,12 @@ ScriptedImporter:
     shouldBeLinear: 0
     shouldBeNormalMap: 0
   - texture: {instanceID: 0}
+    shouldBeLinear: 1
+    shouldBeNormalMap: 0
+  - texture: {instanceID: 0}
+    shouldBeLinear: 1
+    shouldBeNormalMap: 1
+  - texture: {instanceID: 0}
     shouldBeLinear: 0
     shouldBeNormalMap: 0
   - texture: {instanceID: 0}
@@ -200,41 +121,5 @@ ScriptedImporter:
   - texture: {instanceID: 0}
     shouldBeLinear: 1
     shouldBeNormalMap: 1
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 0
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 1
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 0
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 1
-  - texture: {instanceID: 0}
-    shouldBeLinear: 0
-    shouldBeNormalMap: 0
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 1
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 1
-  - texture: {instanceID: 0}
-    shouldBeLinear: 1
-    shouldBeNormalMap: 1
-  - texture: {instanceID: 0}
-    shouldBeLinear: 0
-    shouldBeNormalMap: 0
-  - texture: {instanceID: 0}
-    shouldBeLinear: 0
-    shouldBeNormalMap: 0
-  - texture: {instanceID: 0}
-    shouldBeLinear: 0
-    shouldBeNormalMap: 0
-  - texture: {instanceID: 0}
-    shouldBeLinear: 0
-    shouldBeNormalMap: 0
   _mainAssetIdentifier: scenes/Sketchfab_Scene
   _importPlugins: []
