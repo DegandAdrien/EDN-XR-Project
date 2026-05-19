@@ -6,10 +6,11 @@ public class Fryer : MonoBehaviour
     [System.Serializable]
     public class BasketSlot
     {
-        public Transform basket;          // Le panier du modèle
-        public Transform potatoPosition;  // Où la patate apparaît dans ce panier
-        public Transform friesSpawnPoint; // Où les frites sortent pour ce panier
-        public ParticleSystem fryingParticles; // Particules de friture
+        public Transform basket;
+        public Transform potatoPosition;
+        public Transform friesSpawnPoint;
+        public ParticleSystem fryingParticles;
+        public AudioSource fryingAudioSource;
 
         [HideInInspector] public bool isFrying = false;
         [HideInInspector] public GameObject currentItem;
@@ -29,6 +30,7 @@ public class Fryer : MonoBehaviour
 
     [Header("Frying Settings")]
     public float fryingTime = 6f;
+
 
     private void Start()
     {
@@ -81,11 +83,18 @@ public class Fryer : MonoBehaviour
 
         if (slot.fryingParticles != null)
             slot.fryingParticles.Play();
+        if (slot.fryingAudioSource != null)
+        {
+            slot.fryingAudioSource.loop = true;
+            slot.fryingAudioSource.Play();
+        }
 
         yield return new WaitForSeconds(fryingTime);
 
         if (slot.fryingParticles != null)
             slot.fryingParticles.Stop();
+        if (slot.fryingAudioSource != null)
+            slot.fryingAudioSource.Stop();
 
         if (slot.currentItem != null)
             Destroy(slot.currentItem);

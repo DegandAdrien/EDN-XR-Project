@@ -15,8 +15,13 @@ public class SteakCooker : MonoBehaviour
     [SerializeField] private float burnTime = 4f;
 
     [Header("Particles")]
-    [SerializeField] private ParticleSystem cookedParticles;  // Vapeur quand le steak est cuit
-    [SerializeField] private ParticleSystem burnedParticles;  // Flammes quand le steak brûle
+    [SerializeField] private ParticleSystem cookedParticles;
+    [SerializeField] private ParticleSystem burnedParticles;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource cookingLoopSource;
+    [SerializeField] private AudioClip cookedClip;
+    [SerializeField] private AudioClip burnedClip;
 
     private Coroutine cookingRoutine;
 
@@ -49,9 +54,14 @@ public class SteakCooker : MonoBehaviour
             grabInteractable.enabled = false;
         }
 
-        // Nettoyer les particules d'un cycle précédent et démarrer la vapeur dès la pose
         StopParticles(burnedParticles);
         PlayParticles(cookedParticles);
+
+        if (cookingLoopSource != null)
+        {
+            cookingLoopSource.loop = true;
+            cookingLoopSource.Play();
+        }
 
         if (cookingRoutine != null)
             StopCoroutine(cookingRoutine);
@@ -76,6 +86,9 @@ public class SteakCooker : MonoBehaviour
         PrepareSteakForPickup(cookedSteak);
         currentSteak = cookedSteak;
 
+        if (cookingLoopSource != null) cookingLoopSource.Stop();
+        if (cookingLoopSource != null && cookedClip != null) cookingLoopSource.PlayOneShot(cookedClip);
+
         if (cookedSteak.TryGetComponent(out XRGrabInteractable grab))
             grab.selectEntered.AddListener(_ => OnSteakPickedUp());
 
@@ -84,9 +97,9 @@ public class SteakCooker : MonoBehaviour
 
         if (currentSteak != null)
         {
-            // Arrêter la vapeur, lancer les flammes
             StopParticles(cookedParticles);
             PlayParticles(burnedParticles);
+            if (cookingLoopSource != null && burnedClip != null) cookingLoopSource.PlayOneShot(burnedClip);
 
             Destroy(currentSteak);
             currentSteak = null;
@@ -107,6 +120,7 @@ public class SteakCooker : MonoBehaviour
     private void OnSteakPickedUp()
     {
         currentSteak = null;
+        if (cookingLoopSource != null) cookingLoopSource.Stop();
         if (cookedParticles != null) cookedParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         if (burnedParticles != null) burnedParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"C:\\\\Users\\\\2024705399\\\\Documents\\\\EDN-XR-Project\"; \\(Get-Item \"Assets\\\\Space Burger\\\\models\\\\darth_vader 1.glb\"\\).Length; \\(Get-Item \"Assets\\\\Space Burger\\\\models\\\\dbd_alien_rain 1.glb\"\\).Length; \\(Get-Item \"Assets\\\\Space Burger\\\\models\\\\fortnite_x_star_wars_encrypted_skin 1.glb\"\\).Length)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\2024705399\\\\Documents\\\\EDN-XR-Project\\\\Library\\\\PackageCache\" -Directory | Where-Object { $_.Name -match \"gltf|glb|gltfast|siccity\" } | Select-Object Name)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\2024705399\\\\Documents\\\\EDN-XR-Project\\\\Library\\\\PackageCache\" -Directory | Where-Object { $_.Name -match \"unitygltf|khronos\" } | Select-Object Name)",
+      "PowerShell(Test-Path \"C:\\\\Users\\\\2024705399\\\\Documents\\\\EDN-XR-Project\\\\Library\\\\PackageCache\"; [System.IO.Directory]::GetDirectories\\(\"C:\\\\Users\\\\2024705399\\\\Documents\\\\EDN-XR-Project\\\\Library\\\\PackageCache\"\\) | Select-Object -First 5)",
+      "PowerShell([System.IO.Directory]::GetDirectories\\(\"C:\\\\Users\\\\2024705399\\\\Documents\\\\EDN-XR-Project\\\\Library\\\\PackageCache\"\\) | ForEach-Object { [System.IO.Path]::GetFileName\\($_\\) } | Sort-Object)"
+    ]
+  }
+}

@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelPrefabs:
-  - {fileID: 0}
+  - {fileID: 2519837732360468919, guid: 04099e1bcd90a6549a1bf98c80acf2d8, type: 3}
   modelSpawnPoint: {fileID: 2993011248717754097}
   maxBurgers: 2
   maxFries: 3

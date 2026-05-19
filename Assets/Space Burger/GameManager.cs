@@ -26,6 +26,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI restartCountdownText;
     [SerializeField] private float restartDelay = 10f;
 
+    [Header("Audio - Musiques")]
+    [SerializeField] private AudioSource bgMusicSource;
+    [SerializeField] private AudioSource rushMusicSource;
+
+    [Header("Audio - Effets")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip gameStartClip;
+    [SerializeField] private AudioClip gameOverClip;
+
     private float remainingTime;
     private int errorCount;
     private bool isGameOver;
@@ -66,6 +75,9 @@ public class GameManager : MonoBehaviour
         errorCount = 0;
         isGameOver = false;
         isRush = false;
+
+        if (bgMusicSource != null) bgMusicSource.Play();
+        if (sfxSource != null && gameStartClip != null) sfxSource.PlayOneShot(gameStartClip);
 
         UpdateInGameUI();
     }
@@ -112,6 +124,17 @@ public class GameManager : MonoBehaviour
         isRush = shouldRush;
         if (rushText != null)
             rushText.gameObject.SetActive(isRush);
+
+        if (isRush)
+        {
+            if (bgMusicSource != null) bgMusicSource.Stop();
+            if (rushMusicSource != null) rushMusicSource.Play();
+        }
+        else
+        {
+            if (rushMusicSource != null) rushMusicSource.Stop();
+            if (bgMusicSource != null) bgMusicSource.Play();
+        }
     }
 
     private void TriggerGameOver()
@@ -119,6 +142,10 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         isRush = false;
         restartCountdown = restartDelay;
+
+        if (bgMusicSource != null) bgMusicSource.Stop();
+        if (rushMusicSource != null) rushMusicSource.Stop();
+        if (sfxSource != null && gameOverClip != null) sfxSource.PlayOneShot(gameOverClip);
 
         if (rushText != null)
             rushText.gameObject.SetActive(false);
